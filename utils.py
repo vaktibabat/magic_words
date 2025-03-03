@@ -9,7 +9,7 @@ def embed_perturbed_text(model: SentenceTransformer, sentence: str, perturbation
     # Initial embedding matrix of the model
     E = model[0].auto_model.embeddings.word_embeddings.weight
     tokens = model.tokenizer(sentence)["input_ids"][0]
-    token_embs = E[tokens]
+    token_embs = E[tokens].unsqueeze(0)
     # Concatenate w/perturbations (shape (seq_len + m, h))
     perturbed_sentence_emb = torch.cat([token_embs, perturbations.T])
     # Create an attention mask
