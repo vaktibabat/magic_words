@@ -14,10 +14,7 @@ class MagicWordFinder:
         self.S = S
         # Compute the embedding of each token and store the result in a matrix E
         self.tokenizer = model.tokenizer
-        vocab = self.tokenizer.get_vocab()
-        tokens = sorted(vocab.keys(), key=lambda token: vocab[token])
-        self.E = model.encode(tokens, convert_to_tensor=True)
-
+        self.E = model[0].auto_model.embeddings.word_embeddings.weight
         self.cos_sim = torch.nn.CosineSimilarity(dim=0, eps=1e-6)
         # Embed all texts in S
         self.S_embs = model.encode(S, convert_to_tensor=True)
